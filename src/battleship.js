@@ -1,5 +1,5 @@
 export const Battleship = {
-  createShip: function({ length }) {
+  createShip: function( length ) {
     return {
       length,
       hitAt: Array(length).fill(false),
@@ -21,17 +21,18 @@ export const Battleship = {
       numCols: 10,
       numRows: 10,
       grid: [],
+      shots: [],
 
       throwErrorIfOffRightEdge: function(startCoord, length) {
         if (
-          Math.floor((startCoord + length) / 10) > Math.floor(startCoord / 10)
+          Math.floor((startCoord + (length -1)) / 10) > Math.floor(startCoord / 10)
         ) {
           throw new Error('Ship placed off board horizontally.');
         }
       },
 
       throwErrorIfOffBottomEdge: function(startCoord, length) {
-        if (startCoord + length * 10 >= 100) {
+        if (startCoord + (length -1) * 10 >= 100) {
           throw new Error('Ship placed off board vertically.');
         }
       },
@@ -84,12 +85,23 @@ export const Battleship = {
       },
 
       receiveAttack: function(coord) {
+        if (this.shots.includes(coord)) throw new Error('Square has already been attacked.');
+        this.shots.push(coord);
         if (!this.grid[coord]) return false;
         else {
           let { ship, part } = this.grid[coord];
           ship.hit(part);
           return true;
         }
+      },
+
+      /* checks each grid coordinate for a ship that is not hit */
+      isGameOver: function(){
+        let isOver = true;
+        this.grid.forEach(coord => {
+          if(!coord.ship.isSunk()) isOver = false;
+        });
+        return isOver;
       }
     };
   }

@@ -1,0 +1,59 @@
+$BOARD-SIZE: 10;
+
+body{
+  background: #f8f8f8;
+}
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex:1;
+  width: 40%;
+  border: 2px solid black;
+}
+
+@media screen and (max-width: 720px){ 
+  .board-container {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+}
+
+.square {
+  flex: 1 0 10%;
+  display: inline;
+  border: 1px solid black;
+
+  &:after {
+    content: '';
+    padding-top: 100%;
+    float: right;
+  }
+}
+
+.water {
+  background: blue;
+}
+
+.ship {
+  background: gray;
+}
+
+.hit {
+  background: red;
+}
+
+.miss {
+  background: white;
+}

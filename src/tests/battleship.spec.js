@@ -3,8 +3,7 @@ import { Battleship } from '../battleship.js';
 let ship;
 let board;
 beforeEach( () => {
-  const shipInput = { length: 3 };
-  ship = Battleship.createShip(shipInput); 
+  ship = Battleship.createShip(3); 
   board = Battleship.createBoard();
 });
 
@@ -59,6 +58,7 @@ test('boards can place ships horizontally', () => {
   expect(!!board.grid[17]).toBe(false);
 });
 
+
 test('boards can place ships vertically', ()=> {
   board.placeShip(0, 'v', 3);
   expect(!!board.grid[0]).toBe(true);
@@ -70,6 +70,18 @@ test('boards can place ships vertically', ()=> {
   expect(!!board.grid[9]).toBe(true);
   expect(!!board.grid[19]).toBe(true);
   expect(!!board.grid[29]).toBe(true);
+});
+
+test('boards can place ships horizontally near edge', () => {
+  board.placeShip(98, 'h', 2);
+  expect(!!board.grid[98]).toBe(true);
+  expect(!!board.grid[99]).toBe(true);
+});
+
+test('boards can place ships vertically near edge', () => {
+  board.placeShip(89, 'v', 2);
+  expect(!!board.grid[89]).toBe(true);
+  expect(!!board.grid[99]).toBe(true);
 });
 
 test('throws an error an an invalid direction', () => {
@@ -109,6 +121,29 @@ test('receiveAttack() returns hit when given an occupied square', ()=> {
   board.placeShip(0, 'h', 3);
   expect(board.receiveAttack(0)).toBe(true);
 });
+
+test('receiveAttack() throws error if same square is targeted twice', ()=> {
+  function badAttack(){
+    board.receiveAttack(0);
+    board.receiveAttack(0);
+  }
+  expect(badAttack).toThrowError('Square has already been attacked.');
+});
+
+test('gameOver() should be true if all ships are sunk', ()=> {
+  board.placeShip(0, 'h', 3);
+  board.receiveAttack(0);
+  board.receiveAttack(1);
+  board.receiveAttack(2);
+  expect(board.isGameOver()).toBe(true);
+});
+
+test('gameOver() should be false if there is an unsunk ship', ()=> {
+  board.placeShip(0, 'h', 3);
+  expect(board.isGameOver()).toBe(false);
+});
+
+
 
 
   

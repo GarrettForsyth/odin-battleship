@@ -8,12 +8,26 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "style-loader": "^0.20.3"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.11",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.3",
-    "webpack": "^4.4.1"
+    "node-sass": "^4.8.3",
+    "sass-loader": "^6.0.7",
+    "webpack": "^4.5.0",
+    "webpack-livereload-plugin": "^2.1.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss)$": "<rootDir>/__mocks__/styleMock.js",
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    }
   }
 }
